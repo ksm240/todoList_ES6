@@ -27,9 +27,12 @@ const changeToInComp = (e) => {
   e.target.addEventListener('click', changeToComp);
 }
 
-const removeItem = () => {
-  console.log('remove');
+const removeItem = (e) => {
+  const parent = e.target.parentElement.parentElement;
+  parent.removeChild(e.target.parentElement);
+  console.log(e.target.parentElement.firstChild.innerText);
 }
+
 const createItemDom = (text, status) => {
   const listItem = document.createElement('li');
   const itemLabel =document.createElement('label');
