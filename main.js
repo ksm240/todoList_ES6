@@ -19,16 +19,28 @@ const changeToComp = () => {
   console.trace();
 }
 
-const createItemDom = () => {
+const createItemDom = (text, status) => {
   const listItem = document.createElement('li');
   const itemLabel =document.createElement('label');
   const itemCompBtn = document.createElement('button');
   const itemIncompBtn = document.createElement('button');
+  listItem.className = (status == 'incomplete') ? 'complete well':'uncompleted well';
+  itemLabel.innerText = text;
+  itemCompBtn.className = 'btn btn-success';
+  itemCompBtn.innerText = (status == 'incomplete') ? 'Complete' : 'Incomplete';
+
+  itemIncompBtn.className = 'btn btn-danger';
+  itemIncompBtn.innerText = "Delete";
+
+  listItem.appendChild(itemLabel);
+  listItem.appendChild(itemCompBtn);
+  listItem.appendChild(itemIncompBtn);
+
+  return listItem;
 }
 
 const addToList = () => {
   const item = createItemDom();
-  console.log(todoList);
   todoList.appendChild(item);
 }
 
