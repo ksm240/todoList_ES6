@@ -8,29 +8,49 @@ function listItemObj(content, status) {
   this.status = 'incomplete';
 }
 
-const changeToComp = () => {
-  let parent = this.parentElement;
+const changeToComp = (e) => {
+  const parent = e.target.parentElement;
   console.log('Changed to complete');
   parent.className = 'uncompleted well';
-  this.innerText = 'Incomplete';
-  this.removeEventListener('click', changeToComp);
-  this.addEventListener('click', changeToInComp);
-  changeListArray(parent.firstChild.innerText, 'complete');
-  console.trace();
+  e.target.innerText = 'Incomplete';
+  e.target.removeEventListener('click', changeToComp);
+  e.target.addEventListener('click',changeToInComp);
+  parent.firstChild.innerText = 'complete';
 }
 
+const changeToInComp = (e) => {
+  const parent = e.target.parentElement;
+  console.log('Changed to incomplete');
+  parent.className = 'complete well';
+  e.target.innerText = 'Complete';
+  e.target.removeEventListener('click', changeToInComp);
+  e.target.addEventListener('click', changeToComp);
+}
+
+const removeItem = () => {
+  console.log('remove');
+}
 const createItemDom = (text, status) => {
   const listItem = document.createElement('li');
   const itemLabel =document.createElement('label');
   const itemCompBtn = document.createElement('button');
   const itemIncompBtn = document.createElement('button');
   listItem.className = (status == 'incomplete') ? 'complete well':'uncompleted well';
+
   itemLabel.innerText = text;
+
   itemCompBtn.className = 'btn btn-success';
   itemCompBtn.innerText = (status == 'incomplete') ? 'Complete' : 'Incomplete';
 
   itemIncompBtn.className = 'btn btn-danger';
   itemIncompBtn.innerText = "Delete";
+  itemIncompBtn.addEventListener('click', removeItem);
+
+  if (status == 'incomplete') {
+    itemCompBtn.addEventListener('click', changeToComp);
+  }else{
+    itemCompBtn.addEventListener('click', changeToInComp);
+  }
 
   listItem.appendChild(itemLabel);
   listItem.appendChild(itemCompBtn);
@@ -40,8 +60,10 @@ const createItemDom = (text, status) => {
 }
 
 const addToList = () => {
-  const item = createItemDom();
+  const item = createItemDom(addInput.value, 'incomplete');
   todoList.appendChild(item);
+  addInput.value ='';
+
 }
 
 addButton.addEventListener('click',addToList);
