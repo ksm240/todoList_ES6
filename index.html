@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <title>ToDo List</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Todo List</h1>
+      <div class="form-row">
+        <label for="itemInput" class="col-2 col-form-label">Add Item</label>
+        <div class="col-6">
+          <input id="itemInput" class="form-control" type="text">
+        </div>
+        <div class="col-4">
+          <button id="addButton" class="btn btn-primary mr-2">Add To List</button>
+          <button id="clearButton" class="btn btn-danger">Clear Todo List</button>
+        </div>
+      </div>
+      <h3>Todo List</h3>
+      <ul id="todoList"></ul>
+      <script type="text/javascript" src="main.js"></script>
+    </div>
+  </body>
+</html>
