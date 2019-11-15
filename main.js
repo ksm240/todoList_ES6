@@ -102,6 +102,8 @@ const addToList = () => {
 }
 
 const clearList = () => {
+  listArray = [];
+  localStorage.removeItem('todoList');
   todoList.innerHTML = '';
 }
 
