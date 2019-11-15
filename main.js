@@ -69,4 +69,9 @@ const addToList = () => {
 
 }
 
+const clearList = () => {
+  todoList.innerHTML = '';
+}
+
 addButton.addEventListener('click',addToList);
+clearButton.addEventListener('click', clearList);
