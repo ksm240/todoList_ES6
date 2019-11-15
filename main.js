@@ -63,11 +63,11 @@ const createItemDom = (text, status) => {
 
   itemLabel.innerText = text;
 
-  itemCompBtn.className = 'btn btn-success';
+  itemCompBtn.className = 'btn btn-success mr-2';
   itemCompBtn.innerText = (status == 'incomplete') ? 'Complete' : 'Incomplete';
 
   itemIncompBtn.className = 'btn btn-danger';
-  itemIncompBtn.innerText = "Delete";
+  itemIncompBtn.innerHTML = '<i class="fas fa-trash"></i>';
   itemIncompBtn.addEventListener('click', removeItem);
 
   if (status == 'incomplete') {
