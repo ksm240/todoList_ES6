@@ -3,45 +3,47 @@ const addInput = document.getElementById('itemInput');
 const todoList = document.getElementById('todoList');
 let listArray = [];
 
-function listItemObj(content, status) {
-  this.content = '';
-  this.status = 'incomplete';
+
+function listItemObj() {
+  return {
+    content: '',
+    status: 'incomplete'
+  }
 }
 
 const changeToComp = (e) => {
-  const parent = e.target.parentElement;
-  console.log(parent);
+  const { target: { parentElement } } = e;
+  console.log(parentElement);
   console.log('Changed to complete');
-  parent.className = 'uncompleted well';
+  parentElement.className = 'uncompleted well';
   e.target.innerText = 'Incomplete';
   e.target.removeEventListener('click', changeToComp);
   e.target.addEventListener('click',changeToInComp);
-  changeListArray(parent.firstChild.innerText, 'complete');
+  changeListArray(parentElement.firstChild.innerText, 'complete');
 }
 
 const changeToInComp = (e) => {
-  const parent = e.target.parentElement;
+  const { target: { parentElement }} = e;
   console.log('Changed to incomplete');
-  parent.className = 'complete well';
+  parentElement.className = 'complete well';
   e.target.innerText = 'Complete';
   e.target.removeEventListener('click', changeToInComp);
   e.target.addEventListener('click', changeToComp);
-  changeListArray(parent.firstChild.innerText, 'incomplete');
+  changeListArray(parentElement.firstChild.innerText, 'incomplete');
 }
 
 const removeItem = (e) => {
-  const parent = e.target.parentElement.parentElement;
-  parent.removeChild(e.target.parentElement);
-  console.log(e.target.parentElement.firstChild.innerText);
+  const parent = e.currentTarget.parentElement.parentElement;
+  parent.removeChild(e.currentTarget.parentElement);
+  console.log(e.currentTarget.parentElement.firstChild.innerText);
 
-  const data = e.target.parentElement.firstChild.innerText;
-  for (let i=0; i < listArray.length; i++){
-    if(listArray[i].content == data){
-      listArray.splice(i,1);
+  const data = e.currentTarget.parentElement.firstChild.innerText;
+  listArray.some((item, i) => {
+    if(item.content == data) {
+      listArray.splice(i, 1);
       refreshLocal();
-      break;
     }
-  }
+  });
 }
 
 const changeListArray = (data, status) => {
@@ -59,12 +61,23 @@ const createItemDom = (text, status) => {
   const itemLabel = document.createElement('label');
   const itemCompBtn = document.createElement('button');
   const itemIncompBtn = document.createElement('button');
-  listItem.className = (status == 'incomplete') ? 'complete well':'uncompleted well';
+
+  const todoStatus = Object.freeze({
+    complete: Object.freeze({
+      className: 'complete well',
+      btnLabel: 'Incomplete',
+    }),
+    incomplete: Object.freeze({
+      className: 'incomplete well',
+      btnLabel: 'Complete',
+    }),
+  });
+  listItem.className = todoStatus[status].className;
+  itemCompBtn.innerText = todoStatus[status].btnLabel;
 
   itemLabel.innerText = text;
 
   itemCompBtn.className = 'btn btn-success mr-2';
-  itemCompBtn.innerText = (status == 'incomplete') ? 'Complete' : 'Incomplete';
 
   itemIncompBtn.className = 'btn btn-danger';
   itemIncompBtn.innerHTML = '<i class="fas fa-trash"></i>';
@@ -110,16 +123,15 @@ const clearList = () => {
 window.onload = () => {
   const list = localStorage.getItem('todoList');
   if (list != null) {
-    todos = JSON.parse(list);
-    listArray = todos;
+    listArray = JSON.parse(list);
 
-    for(let i=0; i<listArray.length; i++){
-      const data = listArray[i].content;
-      const item = createItemDom(data, listArray[i].status);
-      todoList.appendChild(item);
-    }
+    const fragment = document.createDocumentFragment();
+    listArray.map((todo) => {
+      const item = createItemDom(todo.content, todo.status);
+      fragment.appendChild(item);
+    });
+    todoList.appendChild(fragment);
   }
-  console.log(list);
 }
 
 addButton.addEventListener('click',addToList);
