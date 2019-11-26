@@ -16,11 +16,11 @@
   flex-grow: 2;
 }
 
-.well.uncompleted {
+.well.completed {
   background: #eee;
 }
 
-.well.uncompleted label {
+.well.completed label {
   text-decoration: line-through;
   color: #aaa;
 }

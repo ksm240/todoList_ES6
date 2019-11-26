@@ -14,7 +14,7 @@
 
   const changeToComp = (e) => {
     const { target: { parentElement } } = e;
-    parentElement.className = 'uncompleted well';
+    parentElement.className = 'completed well';
     e.target.innerText = 'Incomplete';
     e.target.removeEventListener('click', changeToComp);
     e.target.addEventListener('click',changeToInComp);
@@ -23,7 +23,7 @@
 
   const changeToInComp = (e) => {
     const { target: { parentElement }} = e;
-    parentElement.className = 'complete well';
+    parentElement.className = 'incomplete well';
     e.target.innerText = 'Complete';
     e.target.removeEventListener('click', changeToInComp);
     e.target.addEventListener('click', changeToComp);
@@ -61,7 +61,7 @@
 
     const todoStatus = Object.freeze({
       complete: Object.freeze({
-        className: 'complete well',
+        className: 'completed well',
         btnLabel: 'Incomplete',
       }),
       incomplete: Object.freeze({
@@ -107,7 +107,6 @@
     refreshLocal();
     todoList.appendChild(item);
     addInput.value ='';
-
   }
 
   const clearList = () => {
@@ -120,9 +119,8 @@
     const list = localStorage.getItem('todoList');
     if (list != null) {
       listArray = JSON.parse(list);
-
       const fragment = document.createDocumentFragment();
-      listArray.map((todo) => {
+      listArray.forEach((todo) => {
         const item = createItemDom(todo.content, todo.status);
         fragment.appendChild(item);
       });
