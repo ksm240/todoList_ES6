@@ -2,6 +2,7 @@
   const addButton = document.getElementById('addButton');
   const addInput = document.getElementById('itemInput');
   const todoList = document.getElementById('todoList');
+  const clearButton = document.getElementById('clearButton');
   let listArray = [];
 
 
