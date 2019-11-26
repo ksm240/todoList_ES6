@@ -14,8 +14,6 @@
 
   const changeToComp = (e) => {
     const { target: { parentElement } } = e;
-    console.log(parentElement);
-    console.log('Changed to complete');
     parentElement.className = 'uncompleted well';
     e.target.innerText = 'Incomplete';
     e.target.removeEventListener('click', changeToComp);
@@ -25,7 +23,6 @@
 
   const changeToInComp = (e) => {
     const { target: { parentElement }} = e;
-    console.log('Changed to incomplete');
     parentElement.className = 'complete well';
     e.target.innerText = 'Complete';
     e.target.removeEventListener('click', changeToInComp);
@@ -36,7 +33,6 @@
   const removeItem = (e) => {
     const parent = e.currentTarget.parentElement.parentElement;
     parent.removeChild(e.currentTarget.parentElement);
-    console.log(e.currentTarget.parentElement.firstChild.innerText);
 
     const data = e.currentTarget.parentElement.firstChild.innerText;
     listArray.some((item, i) => {
@@ -101,7 +97,6 @@
     const todos = listArray;
     localStorage.removeItem('todoList');
     localStorage.setItem('todoList', JSON.stringify(todos));
-    console.log(listArray);
   }
 
   const addToList = () => {
