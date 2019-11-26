@@ -5,7 +5,6 @@
   const clearButton = document.getElementById('clearButton');
   let listArray = [];
 
-
   function listItemObj() {
     return {
       content: '',
@@ -13,10 +12,21 @@
     }
   }
 
+  const todoStatus = Object.freeze({
+    complete: Object.freeze({
+      className: 'completed well',
+      btnLabel: 'Incomplete',
+    }),
+    incomplete: Object.freeze({
+      className: 'incomplete well',
+      btnLabel: 'Complete',
+    }),
+  });
+
   const changeToComp = (e) => {
     const { target: { parentElement } } = e;
-    parentElement.className = 'completed well';
-    e.target.innerText = 'Incomplete';
+    parentElement.className = todoStatus.complete.className;
+    e.target.innerText = todoStatus.complete.btnLabel;
     e.target.removeEventListener('click', changeToComp);
     e.target.addEventListener('click',changeToInComp);
     changeListArray(parentElement.firstChild.innerText, 'complete');
@@ -24,8 +34,8 @@
 
   const changeToInComp = (e) => {
     const { target: { parentElement }} = e;
-    parentElement.className = 'incomplete well';
-    e.target.innerText = 'Complete';
+    parentElement.className = todoStatus.incomplete.className;
+    e.target.innerText = todoStatus.incomplete.btnLabel;
     e.target.removeEventListener('click', changeToInComp);
     e.target.addEventListener('click', changeToComp);
     changeListArray(parentElement.firstChild.innerText, 'incomplete');
@@ -60,16 +70,6 @@
     const itemCompBtn = document.createElement('button');
     const itemIncompBtn = document.createElement('button');
 
-    const todoStatus = Object.freeze({
-      complete: Object.freeze({
-        className: 'completed well',
-        btnLabel: 'Incomplete',
-      }),
-      incomplete: Object.freeze({
-        className: 'incomplete well',
-        btnLabel: 'Complete',
-      }),
-    });
     listItem.className = todoStatus[status].className;
     itemCompBtn.innerText = todoStatus[status].btnLabel;
 
