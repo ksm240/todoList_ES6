@@ -24,18 +24,22 @@
   });
 
   const changeToComp = (e) => {
+    const status = 'complete';
+    const domData = todoStatus[status];
     const { target: { parentElement } } = e;
-    parentElement.className = todoStatus.complete.className;
-    e.target.innerText = todoStatus.complete.btnLabel;
+    parentElement.className = domData.className;
+    e.target.innerText = domData.btnLabel;
     e.target.removeEventListener('click', changeToComp);
     e.target.addEventListener('click',changeToInComp);
     changeListArray(parentElement.firstChild.innerText, 'complete');
   }
 
   const changeToInComp = (e) => {
+    const status = 'incomplete';
+    const domData = todoStatus[status];
     const { target: { parentElement }} = e;
-    parentElement.className = todoStatus.incomplete.className;
-    e.target.innerText = todoStatus.incomplete.btnLabel;
+    parentElement.className = domData.className;
+    e.target.innerText = domData.btnLabel;
     e.target.removeEventListener('click', changeToInComp);
     e.target.addEventListener('click', changeToComp);
     changeListArray(parentElement.firstChild.innerText, 'incomplete');
