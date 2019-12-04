@@ -23,26 +23,34 @@
     }),
   });
 
+  const getNextStatus = (status) => {
+    const statusKeys = Object.keys(todoStatus);
+    return statusKeys.indexOf(status) ? statusKeys[0] : statusKeys[1];
+  }
+
+  const changeStatus = (btn) => {
+    const item = btn.parentElement;
+    return (status) => {
+      const domData = todoStatus[status];
+      item.className = domData.className;
+      btn.innerText = domData.btnLabel;
+      btn.dataset.status = status;
+      changeListArray(item.firstChild.innerText, status);
+    }
+  };
+
   const changeToComp = (e) => {
-    const status = 'complete';
-    const domData = todoStatus[status];
-    const { target: { parentElement } } = e;
-    parentElement.className = domData.className;
-    e.target.innerText = domData.btnLabel;
-    e.target.removeEventListener('click', changeToComp);
-    e.target.addEventListener('click',changeToInComp);
-    changeListArray(parentElement.firstChild.innerText, 'complete');
+    const btn = e.currentTarget;
+    changeStatus(btn)('complete');
+    btn.removeEventListener('click', changeToComp);
+    btn.addEventListener('click',changeToInComp);
   }
 
   const changeToInComp = (e) => {
-    const status = 'incomplete';
-    const domData = todoStatus[status];
-    const { target: { parentElement }} = e;
-    parentElement.className = domData.className;
-    e.target.innerText = domData.btnLabel;
-    e.target.removeEventListener('click', changeToInComp);
-    e.target.addEventListener('click', changeToComp);
-    changeListArray(parentElement.firstChild.innerText, 'incomplete');
+    const btn = e.currentTarget;
+    changeStatus(btn)('incomplete');
+    btn.removeEventListener('click', changeToInComp);
+    btn.addEventListener('click', changeToComp);
   }
 
   const removeItem = (e) => {
@@ -75,6 +83,7 @@
     const itemIncompBtn = document.createElement('button');
 
     listItem.className = todoStatus[status].className;
+    itemCompBtn.dataset.status = status;
     itemCompBtn.innerText = todoStatus[status].btnLabel;
 
     itemLabel.innerText = text;
@@ -85,12 +94,23 @@
     itemIncompBtn.innerHTML = '<i class="fas fa-trash"></i>';
     itemIncompBtn.addEventListener('click', removeItem);
 
-    if (status == 'incomplete') {
-      itemCompBtn.addEventListener('click', changeToComp);
-    }else{
-      itemCompBtn.addEventListener('click', changeToInComp);
-    }
+    itemCompBtn.addEventListener('click',
+      (e) => changeStatus(e.currentTarget)(getNextStatus(e.currentTarget.dataset.status))
+    );
 
+//    if (status == 'incomplete') {
+//      itemCompBtn.removeEventListener('click', (e) => changeStatus(e.currentTarget)(status));
+//    }else{
+//      itemCompBtn.removeEventListener('click', (e) => changeStatus(e.currentTarget)(status));
+//      itemCompBtn.addEventListener('click', (e) => changeStatus(e.currentTarget)(status));
+//      console.log(status);
+//    }
+//    if (status == 'incomplete') {
+//      itemCompBtn.addEventListener('click', changeToComp);
+//    }else{
+//      itemCompBtn.addEventListener('click', changeToInComp);
+//    }
+//
     listItem.appendChild(itemLabel);
     listItem.appendChild(itemCompBtn);
     listItem.appendChild(itemIncompBtn);
