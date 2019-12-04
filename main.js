@@ -75,7 +75,7 @@
     const listItem = document.createElement('li');
     const itemLabel = document.createElement('label');
     const itemCompBtn = document.createElement('button');
-    const itemIncompBtn = document.createElement('button');
+    const itemRemoveBtn = document.createElement('button');
 
     listItem.className = todoStatus[status].className;
     itemCompBtn.dataset.status = status;
@@ -85,10 +85,10 @@
 
     itemCompBtn.className = 'btn btn-success mr-2';
 
-    itemIncompBtn.className = 'btn btn-danger';
-    itemIncompBtn.innerHTML = '<i class="fas fa-trash"></i>';
-    itemIncompBtn.addEventListener('click', removeItem);
-
+    itemRemoveBtn.className = 'btn btn-danger';
+    itemRemoveBtn.innerHTML = '<i class="fas fa-trash"></i>';
+    itemRemoveBtn.addEventListener('click', removeItem);
+t 
     if (status == 'incomplete') {
       itemCompBtn.addEventListener('click', changeToComp);
     }else{
@@ -97,7 +97,7 @@
 
     listItem.appendChild(itemLabel);
     listItem.appendChild(itemCompBtn);
-    listItem.appendChild(itemIncompBtn);
+    listItem.appendChild(itemRemoveBtn);
 
     return listItem;
   }
