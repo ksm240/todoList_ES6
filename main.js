@@ -39,20 +39,6 @@
     }
   };
 
-  const changeToComp = (e) => {
-    const btn = e.currentTarget;
-    changeStatus(btn)('complete');
-    btn.removeEventListener('click', changeToComp);
-    btn.addEventListener('click',changeToInComp);
-  }
-
-  const changeToInComp = (e) => {
-    const btn = e.currentTarget;
-    changeStatus(btn)('incomplete');
-    btn.removeEventListener('click', changeToInComp);
-    btn.addEventListener('click', changeToComp);
-  }
-
   const removeItem = (e) => {
     const parent = e.currentTarget.parentElement.parentElement;
     parent.removeChild(e.currentTarget.parentElement);
@@ -98,19 +84,6 @@
       (e) => changeStatus(e.currentTarget)(getNextStatus(e.currentTarget.dataset.status))
     );
 
-//    if (status == 'incomplete') {
-//      itemCompBtn.removeEventListener('click', (e) => changeStatus(e.currentTarget)(status));
-//    }else{
-//      itemCompBtn.removeEventListener('click', (e) => changeStatus(e.currentTarget)(status));
-//      itemCompBtn.addEventListener('click', (e) => changeStatus(e.currentTarget)(status));
-//      console.log(status);
-//    }
-//    if (status == 'incomplete') {
-//      itemCompBtn.addEventListener('click', changeToComp);
-//    }else{
-//      itemCompBtn.addEventListener('click', changeToInComp);
-//    }
-//
     listItem.appendChild(itemLabel);
     listItem.appendChild(itemCompBtn);
     listItem.appendChild(itemIncompBtn);
